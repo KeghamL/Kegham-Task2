@@ -40,8 +40,8 @@ Route::post('/addevent', [AdminController::class, 'addevent'])->name('add-event'
 Route::get('/deleteevent', [AdminController::class, 'deleteevent'])->name('delete-event');
 Route::delete('/destroyevent/{event}', [AdminController::class, 'destroyevent'])->name('destroy-event');
 Route::post('/booking', [AdminController::class, 'book'])->name('booking');
-Route::get('/history' , [UserController::class , 'history'])->name('booking-history');
-Route::delete('/cancelbook/{book}' , [UserController::class , 'cancelbook'])->name('cancel-book');
+Route::get('/history', [UserController::class, 'history'])->name('booking-history');
+Route::delete('/cancelbook/{book}', [UserController::class, 'cancelbook'])->name('cancel-book');
 Route::get('/showbook', [AdminController::class, 'showbook'])->name('show-book');
 Route::get('/adminbook', [AdminController::class, 'adminbook'])->name('admin-book');
 Route::get('/adminapprove/{id}', [AdminController::class, 'approve'])->name('admin-approve');
@@ -54,3 +54,4 @@ Route::get('/paymentinfo', [AdminController::class, 'paymentinfo'])->name('payme
 Route::delete('/paymentdestroy{payment}', [AdminController::class, 'paymentdestroy'])->name('payment-destroy');
 Route::get('/users', [AdminController::class, 'users'])->name('users');
 Route::delete('/removeusers{user}', [AdminController::class, 'removeusers'])->name('remove-users');
+Route::get('/notify', [AdminController::class, 'notify']);

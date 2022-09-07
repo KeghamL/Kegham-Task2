@@ -7,12 +7,14 @@ use App\Models\User;
 use App\Models\About;
 use App\Models\Event;
 use App\Models\Massege;
-use App\Models\Service;
 use App\Models\Payment;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use GrahamCampbell\ResultType\Success;
+use App\Notifications\SendNotification;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rules\Password;
 use Mockery\Generator\StringManipulation\Pass\Pass;
@@ -66,7 +68,12 @@ class UserController extends Controller
         $user->gender = $request->gender;
         $res = $user->save();
         if ($res == true) {
-            return redirect('login')->with('success', 'User Register Successfully!');
+
+            $admins = User::where('role_as', 1)->get();
+            Notification::send($admins, new SendNotification($user));
+
+
+            return redirect('login')->with('success', 'User Registered Successfully!');
         } else {
             return back()->with('fail', 'Something Went Wrong!');
         }

@@ -10,6 +10,7 @@ use App\Models\Contact;
 use App\Models\Massege;
 use App\Models\Payment;
 use App\Models\Service;
+use App\Notifications\SendNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -275,5 +276,15 @@ class AdminController extends Controller
     {
         $user->delete();
         return back()->with('success', 'User Removed Successfuly!');
+    }
+
+    public function notify()
+    {
+        if ($user = auth()->user()) {
+
+            $user = User::where('role_as', '!=', '1')->first();
+
+            auth()->user()->notify(new SendNotification($user));
+        }
     }
 }
