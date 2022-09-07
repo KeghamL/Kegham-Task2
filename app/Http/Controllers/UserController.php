@@ -69,8 +69,8 @@ class UserController extends Controller
         $res = $user->save();
         if ($res == true) {
 
-            $admins = User::where('role_as', 1)->get();
-            Notification::send($admins, new SendNotification($user));
+            // $admins = User::where('role_as', 1)->get();
+            // Notification::send($admins, new SendNotification($user));
 
 
             return redirect('login')->with('success', 'User Registered Successfully!');

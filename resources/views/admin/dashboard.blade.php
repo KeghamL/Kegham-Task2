@@ -125,11 +125,13 @@
                     </div>
                 </div>
             </nav>
-            @foreach (auth()->user()->notifications as $notification)
-                <div class="bg-blue-300 p-3 m-2">
-                    {{ $notification->data->fname }} Registered In Your Website!!
-                </div>
-            @endforeach
+            <div class="p-6 bg-white border-b border-gray-200">
+                @foreach (auth()->user()->unreadnotifications as $notification)
+                    <div class="bg-blue-300 p-3 m-2">
+                        {{ $notification->data['fname'] }} Registered In Your Website!!
+                    </div>
+                @endforeach
+            </div>
             <div class="row">
                 <div class="col-xl-3 col-md-6">
                     <div class="card-body">

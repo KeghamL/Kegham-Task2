@@ -280,11 +280,12 @@ class AdminController extends Controller
 
     public function notify()
     {
-        if ($user = auth()->user()) {
+        if (auth()->user()->role_as == '1') {
 
             $user = User::where('role_as', '!=', '1')->first();
 
             auth()->user()->notify(new SendNotification($user));
         }
+        dd('done');
     }
 }
