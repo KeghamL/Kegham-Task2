@@ -54,4 +54,4 @@ Route::get('/paymentinfo', [AdminController::class, 'paymentinfo'])->name('payme
 Route::delete('/paymentdestroy{payment}', [AdminController::class, 'paymentdestroy'])->name('payment-destroy');
 Route::get('/users', [AdminController::class, 'users'])->name('users');
 Route::delete('/removeusers{user}', [AdminController::class, 'removeusers'])->name('remove-users');
-Route::get('/notify', [AdminController::class, 'notify']);
+Route::get('/markasread{id}', [AdminController::class, 'markasread'])->name('markasread');

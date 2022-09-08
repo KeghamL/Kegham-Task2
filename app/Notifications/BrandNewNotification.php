@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class SendNotification extends Notification
+class BrandNewNotification extends Notification
 {
     use Queueable;
     public $user;
@@ -42,9 +42,9 @@ class SendNotification extends Notification
     // public function toMail($notifiable)
     // {
     //     return (new MailMessage)
-    //                 ->line('The introduction to the notification.')
-    //                 ->action('Notification Action', url('/'))
-    //                 ->line('Thank you for using our application!');
+    //         ->line('The introduction to the notification.')
+    //         ->action('Notification Action', url('/'))
+    //         ->line('Thank you for using our application!');
     // }
 
     // /**
@@ -56,9 +56,9 @@ class SendNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'user_id' => $this->user->id,
-            'fname' => $this->user->fname,
-            'email' => $this->user->email,
+            'user_id' => $this->user['id'],
+            'fname' => $this->user['fname'],
+            'email' => $this->user['email'],
         ];
     }
 }

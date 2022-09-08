@@ -278,14 +278,11 @@ class AdminController extends Controller
         return back()->with('success', 'User Removed Successfuly!');
     }
 
-    public function notify()
+    public function markasread($id)
     {
-        if (auth()->user()->role_as == '1') {
-
-            $user = User::where('role_as', '!=', '1')->first();
-
-            auth()->user()->notify(new SendNotification($user));
+        if ($id == true) {
+            auth()->user()->unreadnotifications->where('id', $id)->markAsRead();
         }
-        dd('done');
+        return back();
     }
 }

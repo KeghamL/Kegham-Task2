@@ -125,12 +125,26 @@
                     </div>
                 </div>
             </nav>
-            <div class="p-6 bg-white border-b border-gray-200">
-                @foreach (auth()->user()->unreadnotifications as $notification)
-                    <div class="bg-blue-300 p-3 m-2">
-                        {{ $notification->data['fname'] }} Registered In Your Website!!
+            <div class="py-12">
+                <div class="max-w-7x1 mx-auto sm:px-6 lg:px-8">
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6 bg-white border-b border-gray-200">
+                            @forelse (auth()->user()->unreadnotifications as $notification)
+                                {{-- @dd($notification->data['email']) --}}
+                                <div class="bg-light text-dark  p-2 m-3 ">
+                                    <b>{{ $notification->data['fname'] }} {{ $notification->data['email'] }}</b>
+                                    Registered In
+                                    Your
+                                    Website!!
+                                    <a href="{{ route('markasread', $notification->id) }}"
+                                        class="p-2 bg-red-400 text-danger rounded-lg">MarkAsRead</a>
+                                @empty
+                                    You Dont Have Any Notification!
+                            @endforelse
+
+                        </div>
                     </div>
-                @endforeach
+                </div>
             </div>
             <div class="row">
                 <div class="col-xl-3 col-md-6">

@@ -9,12 +9,14 @@ use App\Models\Event;
 use App\Models\Massege;
 use App\Models\Payment;
 use App\Models\Service;
+use App\Notifications\BrandNewNotification;
+use App\Notifications\MessageNewNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use GrahamCampbell\ResultType\Success;
 use App\Notifications\SendNotification;
-use Illuminate\Notifications\Notification;
+use Notification;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rules\Password;
 use Mockery\Generator\StringManipulation\Pass\Pass;
@@ -58,7 +60,7 @@ class UserController extends Controller
             'gender' => 'required'
 
         ]);
-
+        $admins = User::where('role_as', '1')->get();
         $user = new User();
         $user->fname = $request->fname;
         $user->lname = $request->lname;
@@ -68,11 +70,7 @@ class UserController extends Controller
         $user->gender = $request->gender;
         $res = $user->save();
         if ($res == true) {
-
-            // $admins = User::where('role_as', 1)->get();
-            // Notification::send($admins, new SendNotification($user));
-
-
+            Notification::send($admins, new BrandNewNotification($user));
             return redirect('login')->with('success', 'User Registered Successfully!');
         } else {
             return back()->with('fail', 'Something Went Wrong!');
@@ -97,7 +95,6 @@ class UserController extends Controller
             $events = Event::count();
             $payments = Payment::count();
             $users = User::count();
-            // $admins = User::where('role_as' , '=' , '1')->count();
             return view('admin.dashboard', compact('messages', 'services', 'bookings', 'events', 'users', 'payments'))->with('success', 'Welcome to Admin Dashboard!');
         } elseif (!Auth::user() && empty(auth()->user()->role_as == '0')) {
             return back()->with('fail', 'No User With This E-mail ');
@@ -150,7 +147,7 @@ class UserController extends Controller
             'email' => 'required|email',
             'message' => 'required'
         ]);
-
+        $admins = User::where('role_as', '1')->get();
         $message = new Massege();
         $message->name = $request->name;
         $message->email = $request->email;
@@ -158,7 +155,7 @@ class UserController extends Controller
         $res = $message->save();
 
         if ($res == true) {
-
+            Notification::send($admins, new MessageNewNotification($message));
             return back()->with('success', 'Message Delivered Successfully!');
         } else {
             return back()->with('fail', 'Something Went Wrong');
