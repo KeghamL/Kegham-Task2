@@ -62,8 +62,7 @@ class AdminController extends Controller
             'email' => 'required|email'
         ]);
 
-        // $about = About::find(1);
-        $about = new About();
+        $about = About::find(1);
         $about->about = $request->about;
         $about->location = $request->location;
         $about->phone = $request->phone;
