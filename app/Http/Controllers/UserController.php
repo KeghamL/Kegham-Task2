@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Notification;
 use App\Models\Book;
 use App\Models\User;
 use App\Models\About;
@@ -9,16 +10,16 @@ use App\Models\Event;
 use App\Models\Massege;
 use App\Models\Payment;
 use App\Models\Service;
-use App\Notifications\BrandNewNotification;
-use App\Notifications\MessageNewNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use GrahamCampbell\ResultType\Success;
 use App\Notifications\SendNotification;
-use Notification;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rules\Password;
+use App\Notifications\PaymentNotification;
+use App\Notifications\BrandNewNotification;
+use App\Notifications\MessageNewNotification;
 use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class UserController extends Controller
@@ -28,7 +29,6 @@ class UserController extends Controller
         $abouts = About::first();
         $services = Service::all();
         $events = Event::all();
-        // dd($abouts);
         return view('main', compact('abouts', 'services', 'events'));
     }
 
@@ -95,7 +95,8 @@ class UserController extends Controller
             $events = Event::count();
             $payments = Payment::count();
             $users = User::count();
-            return view('admin.dashboard', compact('messages', 'services', 'bookings', 'events', 'users', 'payments'))->with('success', 'Welcome to Admin Dashboard!');
+            $notifications = $request->user()->notifications->where('type', 'user')->all();
+            return view('admin.dashboard', compact('messages', 'services', 'bookings', 'events', 'users', 'payments', 'notifications'))->with('success', 'Welcome to Admin Dashboard!');
         } elseif (!Auth::user() && empty(auth()->user()->role_as == '0')) {
             return back()->with('fail', 'No User With This E-mail ');
         }
@@ -188,9 +189,9 @@ class UserController extends Controller
             'address' => 'required',
             'city' => 'required',
             'cardname' => 'required',
-            'expdate' => 'required',
+            'expdate' => 'required|after:3years',
         ]);
-
+        $admins = User::where('role_as', '1')->get();
         $payment = new Payment();
         $payment->user_id = auth()->user()->id;
         $payment->book_id = $request->book_id;
@@ -202,6 +203,7 @@ class UserController extends Controller
         $payment->cardnumber = $request->cardnumber;
         $payment->expdate = $request->expdate;
         $res = $payment->save();
+        Notification::send($admins, new PaymentNotification($payment));
         if ($res == true) {
             return redirect('/')->with('success', 'Your Payment Is Done!');
         } else {

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <style>
         body {
             font-family: "Lato", sans-serif;
@@ -170,13 +170,14 @@
                     @foreach ($services as $service)
                         <div class="col-lg-4 w3-container w3-white"
                             style="width:300px; margin:20px; border-radius:2px;padding:20px;">
-                            <input type="hidden" name="service_id" id="service_id" value="{{$service->id}}" readonly>
+                            <input type="hidden" name="service_id" id="service_id" value="{{ $service->id }}"
+                                readonly>
                             <p><b>{{ $service->name }}</b></p>
                             <p class="w3-opacity">{{ $service->price }}$</p>
                             <p>{{ $service->description }}</p>
                             @if (Auth::check())
-                          <button class="w3-button w3-black w3-margin-bottom" data-id="{{$service->id}}"
-                                onclick="openModal(this)">BOOK</button>
+                                <button class="w3-button w3-black w3-margin-bottom" data-id="{{ $service->id }}"
+                                    onclick="openModal(this)">BOOK</button>
                             @endif
                         </div>
                     @endforeach
@@ -290,7 +291,7 @@
         carousel();
 
         function openModal(e) {
-            document.getElementById('ticketModal').style.display='block'
+            document.getElementById('ticketModal').style.display = 'block'
             document.getElementById('modal-service_id').value = e.getAttribute('data-id')
         }
 
@@ -326,13 +327,6 @@
             }
         }
     </script>
-
-{{-- <script>
-    $('.accept-btn').on('click', function() {
-    var service_id = $(this).data('id');
-    alert(service_id);
-});
-</script> --}}
 
 </body>
 

@@ -59,6 +59,15 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\Payment');
     }
 
+    public function userUnreadNotifications()
+    {
+        return $this->unreadNotifications()->where('type', 'user');
+    }
+
+    public function messageUnreadNotifications()
+    {
+        return $this->unreadNotifications()->where('type', 'message');
+    }
 
 
 

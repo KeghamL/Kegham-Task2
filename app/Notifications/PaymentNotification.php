@@ -7,19 +7,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class MessageNewNotification extends Notification
+class PaymentNotification extends Notification
 {
     use Queueable;
-    public $massege;
+    public $payment;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($massege)
+    public function __construct($payment)
     {
-        $this->massege = $massege;
+        $this->payment = $payment;
     }
 
     /**
@@ -56,10 +56,10 @@ class MessageNewNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'user_id' => $this->massege['id'],
-            'name' => $this->massege['name'],
-            'message' => $this->massege['message'],
-            'type' => 'message'
+            'user_id' => $this->payment['id'],
+            'fullname' => $this->payment['fullname'],
+            'city' => $this->payment['city'],
+            'type' => 'payment'
         ];
     }
 }

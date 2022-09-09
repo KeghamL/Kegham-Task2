@@ -129,24 +129,41 @@
                 <div class="max-w-7x1 mx-auto sm:px-6 lg:px-8">
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="p-6 bg-white border-b border-gray-200">
-                            @forelse (auth()->user()->unreadnotifications as $notification)
-                                <div class="bg-light text-dark  p-2 m-3 ">
-                                    <b>{{ $notification->data['fname'] }} {{ $notification->data['email'] }}</b>
-                                    Registered In
-                                    Your
-                                    Website!!
-                                    <a href="{{ route('markasread', $notification->id) }}"
-                                        class="p-2 bg-red-400 text-danger rounded-lg">MarkAsRead</a>
-                                @empty
-                                    You Dont Have Any Notification!
+                            @forelse (auth()->user()->unreadNotifications as $notification)
+                                @if ($notification->type == 'App\Notifications\BrandNewNotification')
+                                    <div class="bg-light text-dark  p-2 m-3 ">
+                                        <b>{{ $notification->data['fname'] }} ({{ $notification->data['email'] }})</b>
+                                        Registered In
+                                        Your
+                                        Website!!
+                                        <a href="{{ route('markasread', $notification->id) }}"
+                                            class="p-2 bg-red-400 text-danger rounded-lg">MarkAsRead</a>
+                                    @elseif ($notification->type == 'App\Notifications\MessageNewNotification')
+                                        <div class="bg-light text-dark  p-2 m-3 ">
+                                            You Have A New Message Send By
+                                            <b>({{ $notification->data['name'] }})
+                                            </b>
+                                            <a href="{{ route('markasread', $notification->id) }}"
+                                                class="p-2 bg-red-400 text-danger rounded-lg">MarkAsRead</a>
+                                        @elseif ($notification->type == 'App\Notifications\PaymentNotification')
+                                            <div class="bg-light text-dark  p-2 m-3 ">
+                                                User<b>({{ $notification->data['fullname'] }})</b> From
+                                                <b>({{ $notification->data['city'] }})
+                                                </b>
+                                                Has Purhcased A New Service!!
+                                                <a href="{{ route('markasread', $notification->id) }}"
+                                                    class="p-2 bg-red-400 text-danger rounded-lg">MarkAsRead</a>
+                                @endif
+                            @empty
+                                You Dont Have Any Notification!
                             @endforelse
-                            @foreach (auth()->user()->unreadnotifications as $notification)
+                            {{-- @foreach (auth()->user()->messageUnreadNotifications as $notification)
                                 <b>{{ $notification->data['name'] }} ({{ $notification->data['message'] }})</b>
                                 Send
                                 You A Message!!
                                 <a href="{{ route('markasread', $notification->id) }}"
                                     class="p-2 bg-red-400 text-danger rounded-lg">MarkAsRead</a>
-                            @endforeach
+                            @endforeach --}}
                         </div>
                     </div>
                 </div>
@@ -175,7 +192,8 @@
                 <div class="col-xl-3 col-md-6">
                     <div class="card-body">
                         <span class="badge badge-danger">{{ $bookings }}</span>
-                        <a href="/showbook"><img src="https://www.vanroey.be/wp-content/uploads/Microsoft-Bookings.jpg">
+                        <a href="/showbook"><img
+                                src="https://www.vanroey.be/wp-content/uploads/Microsoft-Bookings.jpg">
 
                     </div>
                 </div>
