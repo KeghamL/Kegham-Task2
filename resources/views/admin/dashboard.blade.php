@@ -131,43 +131,37 @@
                         <div class="p-6 bg-white border-b border-gray-200">
                             @if (!empty($unreadNotifications))
                                 @forelse (auth()->user()->unreadNotifications as $notification)
-                                    @if ($notification->type == 'App\Notifications\BrandNewNotification')
+                                @endif
+                                @if ($notification->type == 'App\Notifications\BrandNewNotification')
+                                    <div class="bg-light text-dark  p-2 m-3 ">
+                                        <b>{{ $notification->data['fname'] }}
+                                            ({{ $notification->data['email'] }})
+                                        </b>
+                                        Registered In
+                                        Your
+                                        Website!!
+                                        <a href="{{ route('markasread', $notification->id) }}"
+                                            class="p-2 bg-red-400 text-danger rounded-lg">MarkAsRead</a>
+                                    @elseif ($notification->type == 'App\Notifications\MessageNewNotification')
                                         <div class="bg-light text-dark  p-2 m-3 ">
-                                            <b>{{ $notification->data['fname'] }}
-                                                ({{ $notification->data['email'] }})
+                                            You Have A New Message Send By
+                                            <b>({{ $notification->data['name'] }})
                                             </b>
-                                            Registered In
-                                            Your
-                                            Website!!
                                             <a href="{{ route('markasread', $notification->id) }}"
                                                 class="p-2 bg-red-400 text-danger rounded-lg">MarkAsRead</a>
-                                        @elseif ($notification->type == 'App\Notifications\MessageNewNotification')
+                                        @elseif ($notification->type == 'App\Notifications\PaymentNotification')
                                             <div class="bg-light text-dark  p-2 m-3 ">
-                                                You Have A New Message Send By
-                                                <b>({{ $notification->data['name'] }})
+                                                User<b>({{ $notification->data['fullname'] }})</b> From
+                                                <b>({{ $notification->data['city'] }})
                                                 </b>
+                                                Has Purhcased A New Service!!
                                                 <a href="{{ route('markasread', $notification->id) }}"
                                                     class="p-2 bg-red-400 text-danger rounded-lg">MarkAsRead</a>
-                                            @elseif ($notification->type == 'App\Notifications\PaymentNotification')
-                                                <div class="bg-light text-dark  p-2 m-3 ">
-                                                    User<b>({{ $notification->data['fullname'] }})</b> From
-                                                    <b>({{ $notification->data['city'] }})
-                                                    </b>
-                                                    Has Purhcased A New Service!!
-                                                    <a href="{{ route('markasread', $notification->id) }}"
-                                                        class="p-2 bg-red-400 text-danger rounded-lg">MarkAsRead</a>
-                                    @endif
                                 @endif
+
                             @empty
                                 You Dont Have Any Notification!
                             @endforelse
-                            {{-- @foreach (auth()->user()->messageUnreadNotifications as $notification)
-                                <b>{{ $notification->data['name'] }} ({{ $notification->data['message'] }})</b>
-                                Send
-                                You A Message!!
-                                <a href="{{ route('markasread', $notification->id) }}"
-                                    class="p-2 bg-red-400 text-danger rounded-lg">MarkAsRead</a>
-                            @endforeach --}}
                         </div>
                     </div>
                 </div>
