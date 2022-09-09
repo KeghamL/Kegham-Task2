@@ -153,7 +153,6 @@ class UserController extends Controller
         $message->email = $request->email;
         $message->message = $request->message;
         $res = $message->save();
-
         if ($res == true) {
             Notification::send($admins, new MessageNewNotification($message));
             return back()->with('success', 'Message Delivered Successfully!');

@@ -10,16 +10,16 @@ use Illuminate\Notifications\Notification;
 class MessageNewNotification extends Notification
 {
     use Queueable;
-    public $message;
+    public $massege;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct($massege)
     {
-        $this->message = $message;
+        $this->massege = $massege;
     }
 
     /**
@@ -56,9 +56,9 @@ class MessageNewNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'user_id' => $this->message['id'],
-            'name' => $this->message['name'],
-            'message' => $this->message['message'],
+            'user_id' => $this->massege['id'],
+            'name' => $this->massege['name'],
+            'message' => $this->massege['message'],
         ];
     }
 }

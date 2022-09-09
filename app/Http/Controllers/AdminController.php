@@ -31,7 +31,6 @@ class AdminController extends Controller
         $events = Event::count();
         $payments = Payment::count();
         $users = User::count();
-        // $admins = User::where('role_as' , '=' , '1')->count();
         return view('admin.dashboard', compact('messages', 'services', 'bookings', 'events', 'users', 'payments'));
     }
 

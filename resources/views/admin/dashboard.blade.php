@@ -130,7 +130,6 @@
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="p-6 bg-white border-b border-gray-200">
                             @forelse (auth()->user()->unreadnotifications as $notification)
-                                {{-- @dd($notification->data['email']) --}}
                                 <div class="bg-light text-dark  p-2 m-3 ">
                                     <b>{{ $notification->data['fname'] }} {{ $notification->data['email'] }}</b>
                                     Registered In
@@ -141,7 +140,13 @@
                                 @empty
                                     You Dont Have Any Notification!
                             @endforelse
-
+                            @foreach (auth()->user()->unreadnotifications as $notification)
+                                <b>{{ $notification->data['name'] }} ({{ $notification->data['message'] }})</b>
+                                Send
+                                You A Message!!
+                                <a href="{{ route('markasread', $notification->id) }}"
+                                    class="p-2 bg-red-400 text-danger rounded-lg">MarkAsRead</a>
+                            @endforeach
                         </div>
                     </div>
                 </div>

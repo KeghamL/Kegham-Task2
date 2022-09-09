@@ -11,15 +11,17 @@ class BrandNewNotification extends Notification
 {
     use Queueable;
     public $user;
+    public $massege;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $massege)
     {
         $this->user = $user;
+        $this->massege = $massege;
     }
 
     /**
@@ -59,6 +61,9 @@ class BrandNewNotification extends Notification
             'user_id' => $this->user['id'],
             'fname' => $this->user['fname'],
             'email' => $this->user['email'],
+            'user_id' => $this->massege['id'],
+            'name' => $this->massege['name'],
+            'message' => $this->massege['message'],
         ];
     }
 }
