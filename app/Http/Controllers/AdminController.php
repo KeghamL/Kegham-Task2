@@ -151,8 +151,8 @@ class AdminController extends Controller
     {
         $request->validate([
             'guests' => 'required|numeric',
-            'datefrom' => 'required|date',
-            'dateto' => 'required|date',
+            'datefrom' => 'required|date|max:10',
+            'dateto' => 'required|date|max:10',
             'event' => 'required',
             'message' => 'required'
         ]);
