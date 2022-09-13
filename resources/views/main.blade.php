@@ -269,7 +269,7 @@
                     <div class="input-control">
                         <p><label><i class="fa fa-shopping-cart"></i>Number of Guests:</label></p>
                         <input class="w3-input w3-border" id="guests" name="guests" type="text"
-                            placeholder="">
+                            placeholder=""required>
                         <i class="fas fa-check-circle"></i>
                         <i class="fas fa-exclamation-circle"></i>
                         <small>Error message</small>
@@ -277,7 +277,7 @@
                     <div class="input-control">
                         <p><label><i class="fa fa-user"></i>Booking From:</label></p>
                         <input class="w3-input w3-border" id="date" name="datefrom" type="date"
-                            placeholder="">
+                            placeholder="" required>
                         <i class="fas fa-check-circle"></i>
                         <i class="fas fa-exclamation-circle"></i>
                         <small>Error message</small>
@@ -285,7 +285,7 @@
                     <div class="input-control">
                         <p><label><i class="fa fa-user"></i>Booking To:</label></p>
                         <input class="w3-input w3-border" id="date1" name="dateto" type="date"
-                            placeholder="">
+                            placeholder="" required>
                         <i class="fas fa-check-circle"></i>
                         <i class="fas fa-exclamation-circle"></i>
                         <small>Error message</small>
@@ -299,7 +299,7 @@
                     <div class="input-control">
                         <p><label><i class="fa fa-user"></i>Message:</label></p>
                         <input class="w3-input w3-border" id="message" name="message" type="text"
-                            placeholder="">
+                            placeholder=""required>
                         <i class="fas fa-check-circle"></i>
                         <i class="fas fa-exclamation-circle"></i>
                         <small>Error message</small>
