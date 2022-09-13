@@ -136,24 +136,19 @@
         <a href="#tour" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">SERVICES</a>
         <a href="#contact" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">MAIL-US</a>
         @if (Auth::check())
-            <div class="w3-dropdown-hover w3-hide-small">
+            <div class="w3-bar-item w3-button w3-padding-large">
                 <button class="w3-padding-large w3-button" title="More">MY ACCOUNT <i
                         class="fa fa-caret-down"></i></button>
-                <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                    <a href="/userinfo" class="w3-bar-item w3-button">PROFILE</a>
-                    <a href="/history" class="w3-bar-item w3-button">BOOKING HISTORY</a>
-                    <a href="/changepassword" class="w3-bar-item w3-button">CHANGE PASSWORD</a>
+                <div class="w3-bar-item w3-button w3-padding-large">
+                    <a href="/userinfo" class="w3-bar-item w3-button w3-padding-large">PROFILE</a>
+                    <a href="/history" class="w3-bar-item w3-button w3-padding-large">BOOKING HISTORY</a>
+                    <a href="/changepassword" class="w3-bar-item w3-button w3-padding-large">CHANGE PASSWORD</a>
                 </div>
             </div>
         @endif
         @if (!Auth::check())
-            <a href="/login" class="w3-padding-large w3-hover-red w3-hide-small w3-right">LOGIN</a>
-            <a href="/register" class="w3-padding-large w3-hover-red w3-hide-small w3-right">REGISTER</a>
-        @else
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="btnnew">LOGOUT</button>
-            </form>
+            <a href="/login" class="w3-bar-item w3-button w3-padding-large">LOGIN</a>
+            <a href="/register" class="w3-bar-item w3-button w3-padding-large">REGISTER</a>
         @endif
     </div>
 
