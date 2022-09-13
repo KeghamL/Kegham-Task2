@@ -185,11 +185,12 @@ class UserController extends Controller
         $request->validate([
             'book_id' => 'required',
             'fullname' => 'required',
-            'email' => 'required',
+            'email' => 'required|email|unique:users',
             'address' => 'required',
             'city' => 'required',
             'cardname' => 'required',
-            'expdate' => 'required|after:3years',
+            'cardnumber' => 'required|max:19|min:19',
+            'expdate' => 'required|after:3years|before:2years',
         ]);
         $admins = User::where('role_as', '1')->get();
         $payment = new Payment();

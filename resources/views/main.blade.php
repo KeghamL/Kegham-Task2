@@ -12,6 +12,9 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,500&display=swap');
+
         body {
             font-family: "Lato", sans-serif;
         }
@@ -40,12 +43,54 @@
         .btnnew:hover {
             color: red;
         }
+
+        .input-control.success input {
+            border-color: #2ecc71;
+        }
+
+        .input-control.error input {
+            border-color: #e74c3c;
+        }
+
+        .input-control i {
+            visibility: hidden;
+            position: absolute;
+            top: 40px;
+            right: 10px;
+        }
+
+        .input-control.success i.fa-check-circle {
+            color: #2ecc71;
+            visibility: visible;
+        }
+
+        .input-control.error i.fa-exclamation-circle {
+            color: #e74c3c;
+            visibility: visible;
+        }
+
+        .input-control small {
+            color: #e74c3c;
+            bottom: 0;
+            left: 0;
+            visibility: hidden;
+        }
+
+        .input-control.success input {
+            border-color: #2ecc71;
+        }
+
+        .input-control.error input {
+            border-color: #e74c3c;
+        }
+
+        .input-control.error small {
+            visibility: visible;
+        }
     </style>
 </head>
 
 <body>
-
-
 
     <!-- Navbar -->
     <div class="w3-top">
@@ -90,7 +135,26 @@
         <a href="#band" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">ABOUT</a>
         <a href="#tour" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">SERVICES</a>
         <a href="#contact" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">MAIL-US</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">MY ACCOUNT</a>
+        @if (Auth::check())
+            <div class="w3-dropdown-hover w3-hide-small">
+                <button class="w3-padding-large w3-button" title="More">MY ACCOUNT <i
+                        class="fa fa-caret-down"></i></button>
+                <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                    <a href="/userinfo" class="w3-bar-item w3-button">PROFILE</a>
+                    <a href="/history" class="w3-bar-item w3-button">BOOKING HISTORY</a>
+                    <a href="/changepassword" class="w3-bar-item w3-button">CHANGE PASSWORD</a>
+                </div>
+            </div>
+        @endif
+        @if (!Auth::check())
+            <a href="/login" class="w3-padding-large w3-hover-red w3-hide-small w3-right">LOGIN</a>
+            <a href="/register" class="w3-padding-large w3-hover-red w3-hide-small w3-right">REGISTER</a>
+        @else
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="btnnew">LOGOUT</button>
+            </form>
+        @endif
     </div>
 
 
@@ -114,16 +178,12 @@
         <div class="mySlides w3-display-container w3-center">
             <img src="https://wallpaperaccess.com/full/6402231.jpg" style="width:100%" , height="700px">
             <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
-                {{-- <h3>Syria</h3>
-                <p><b>In Syria We Have Very Coltural Places.</b></p> --}}
             </div>
         </div>
         <div class="mySlides w3-display-container w3-center">
             <img src="https://i.pinimg.com/originals/11/aa/4b/11aa4b40a7e0f41c480a5b8527d83d7c.jpg" style="width:100%" ,
                 height="700px">
             <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
-                {{-- <h3>Lebanon</h3>
-                <p><b>In Lebanon We Have the Best Dj.</b></p> --}}
             </div>
         </div>
 
@@ -198,31 +258,66 @@
                 <h2 class="w3-wide"><i class="fa fa-suitcase w3-margin-right"></i>Tickets</h2>
             </header>
             <div class="w3-container">
-                <form action="/booking " method="POST">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form action="/booking" id="form" method="POST">
                     @csrf
                     <input id="modal-service_id" type="text" name="service_id" hidden>
-                    <p><label><i class="fa fa-shopping-cart"></i>Number of Guests:</label></p>
-                    <input class="w3-input w3-border" name="guests" type="text" placeholder="">
-                    <p><label><i class="fa fa-user"></i>Booking From:</label></p>
-                    <input class="w3-input w3-border" name="datefrom" type="date" placeholder="">
-                    <p><label><i class="fa fa-user"></i>Booking To:</label></p>
-                    <input class="w3-input w3-border" name="dateto" type="date" placeholder="">
+                    <div class="input-control">
+                        <p><label><i class="fa fa-shopping-cart"></i>Number of Guests:</label></p>
+                        <input class="w3-input w3-border" id="guests" name="guests" type="text"
+                            placeholder="">
+                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-exclamation-circle"></i>
+                        <small>Error message</small>
+                    </div>
+                    <div class="input-control">
+                        <p><label><i class="fa fa-user"></i>Booking From:</label></p>
+                        <input class="w3-input w3-border" id="date" name="datefrom" type="date"
+                            placeholder="">
+                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-exclamation-circle"></i>
+                        <small>Error message</small>
+                    </div>
+                    <div class="input-control">
+                        <p><label><i class="fa fa-user"></i>Booking To:</label></p>
+                        <input class="w3-input w3-border" id="date1" name="dateto" type="date"
+                            placeholder="">
+                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-exclamation-circle"></i>
+                        <small>Error message</small>
+                    </div>
                     <p><label><i class="fa fa-user"></i>Event Type:</label></p>
                     <select class="w3-input w3-border" name="event">
                         @foreach ($events as $event)
                             <option value="{{ $event->event }}">{{ $event->event }}</option>
                         @endforeach
                     </select>
-                    <p><label><i class="fa fa-user"></i>Message:</label></p>
-                    <input class="w3-input w3-border" name="message" type="text" placeholder="">
+                    <div class="input-control">
+                        <p><label><i class="fa fa-user"></i>Message:</label></p>
+                        <input class="w3-input w3-border" id="message" name="message" type="text"
+                            placeholder="">
+                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-exclamation-circle"></i>
+                        <small>Error message</small>
+                    </div>
                     <button class="w3-button w3-block w3-teal w3-padding-16 w3-section w3-right">PAY <i
                             class="fa fa-check"></i></button>
                 </form>
-                <button class="w3-button w3-red w3-section"
-                    onclick="document.getElementById('ticketModal').style.display='none'">Close <i
-                        class="fa fa-remove"></i></button>
             </div>
+            <button class="w3-button w3-red w3-section"
+                onclick="document.getElementById('ticketModal').style.display='none'">Close <i
+                    class="fa fa-remove"></i></button>
         </div>
+    </div>
     </div>
 
 
@@ -326,8 +421,70 @@
                 modal.style.display = "none";
             }
         }
-    </script>
 
+
+
+        //Display Errors in Form Validation
+        const guests = document.getElementById('guests');
+        const date = document.getElementById('date');
+        const date1 = document.getElementById('date1');
+        const message = document.getElementById('message');
+        const form = document.getElementById('form');
+
+
+        // form.addEventListener('submit', e => {
+        //     e.preventDefault();
+
+        //     checkInputs();
+        // });
+
+        function checkInputs() {
+            // trim to remove the whitespaces
+            const guestsValue = guests.value.trim();
+            const dateValue = date.value.trim();
+            const date1Value = date1.value.trim();
+            const messageValue = message.value.trim();
+
+            if (guestsValue === '') {
+                setErrorFor(guests, 'Guests Number Cant Be Empty!');
+            } else if (guestsValue > 300) {
+                setErrorFor(guests, 'Guests Number Must Be Under 300!');
+            } else {
+                setSuccessFor(guests);
+            }
+
+
+            if (dateValue === '') {
+                setErrorFor(date, 'Date Cant Be Empty!');
+            } else {
+                setSuccessFor(date);
+            }
+
+            if (date1Value === '') {
+                setErrorFor(date1, 'Date Cant Be Empty!');
+            } else {
+                setSuccessFor(date1);
+            }
+
+            if (messageValue === '') {
+                setErrorFor(message, 'Message Cant Be Empty!');
+            } else {
+                setSuccessFor(message);
+            }
+
+            function setErrorFor(input, message) {
+                const formControl = input.parentElement;
+                const small = formControl.querySelector('small');
+                formControl.className = 'input-control error';
+                small.innerText = message;
+            }
+
+            function setSuccessFor(input) {
+                const formControl = input.parentElement;
+                formControl.className = 'input-control success';
+            }
+        }
+    </script>
 </body>
 
 </html>

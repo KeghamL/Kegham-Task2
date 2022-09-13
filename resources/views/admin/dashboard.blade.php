@@ -216,8 +216,8 @@
 
                 <div class="col-xl-3 col-md-6">
                     <div class="card-body">
-                        <span class="badge badge-danger">{{ $users }}</span>
-                        <a href="/users"><img
+                        <span id="show" class="badge badge-danger">{{ $users }}</span>
+                        <a id="hide" href="/users"><img
                                 src="https://www.prajwaldesai.com/wp-content/uploads/2021/02/Find-Users-Last-Logon-Time-using-4-Easy-Methods.jpg">
                     </div>
                 </div>
@@ -232,6 +232,14 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/main.js"></script>
 
+
+        <script>
+            $(document).ready(function() {
+                $('#hide').on('click', function() {
+                    $('#show').remove();
+                });
+            });
+        </script>
 </body>
 
 </html>

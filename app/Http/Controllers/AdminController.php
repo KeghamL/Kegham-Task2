@@ -157,15 +157,6 @@ class AdminController extends Controller
             'message' => 'required'
         ]);
 
-        // $input = $request->all();
-
-        // $input['user_id'] = auth()->user()->id;
-
-        // Book::create($input);
-
-        // return redirect()->route('login-user')
-        //     ->with('success', 'You Booked This Service!');
-
         $guests = $request->input('guests');
         $datefrom = $request->input('datefrom');
         $service_id = $request->input('service_id');
@@ -173,23 +164,23 @@ class AdminController extends Controller
         $message = $request->input('message');
         $event = $request->input('event');
 
-        // $service_check = Service::where('id', $service_id)->first();
+        $service_check = Service::where('id', $service_id)->first();
 
-        // if ($service_check == true) {
-        Book::create([
-            'user_id' => auth()->user()->id,
-            'service_id' => $service_id,
-            'guests' => $guests,
-            'datefrom' => $datefrom,
-            'dateto' => $dateto,
-            'message' => $message,
-            'event' => $event,
-        ]);
+        if ($service_check == true) {
+            Book::create([
+                'user_id' => auth()->user()->id,
+                'service_id' => $service_id,
+                'guests' => $guests,
+                'datefrom' => $datefrom,
+                'dateto' => $dateto,
+                'message' => $message,
+                'event' => $event,
+            ]);
 
-        return redirect('/payment')->with('success', 'You Booked This Service!');
-        // } else {
-        //     return back()->with('fail', 'Something Went Wrong!');
-        // }
+            return redirect('/payment')->with('success', 'You Booked This Service!');
+        } else {
+            return back()->with('fail', 'There is Something Wrong!');
+        }
     }
 
     public function showbook()
